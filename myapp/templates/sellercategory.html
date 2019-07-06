@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<form method="POST" class="col-md-3" action="{% url 'selleraddcategory' %}">
+    {% csrf_token %}
+    <label>Enter Categories: </label>
+		
+    {{ form.as_p}}
+    <input type="submit">
+   <span><a href="{% url 'selleraddproduct' %}" class="btn btn-primary">Add Product</a></span> 
+</form>
+
+
+    {% for object in object_list %}
+<a href="">{{ object }}</a>
+
+{% endfor %}
+
+
+{% endblock %}
+
+

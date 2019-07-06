@@ -1,0 +1,67 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+   
+     <div id="demo" class="carousel slide" data-ride="carousel">
+
+        <!-- Indicators -->
+        <ul class="carousel-indicators">
+          <li data-target="#demo" data-slide-to="0" class="active"></li>
+          <li data-target="#demo" data-slide-to="1"></li>
+          <li data-target="#demo" data-slide-to="2"></li>
+        </ul>
+         
+        <!-- The slideshow -->
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="{% static 'photo 1.jpeg' %}" alt="phone" style="width:1400px ;height:300px;">
+          </div>
+          <div class="carousel-item">
+            <img src="{% static 'photo 2.jpeg' %}" alt="clothe" style="width:1400px ;height:300px;">
+          </div>
+          <div class="carousel-item">
+            <img src="{% static 'photo 3.jpeg' %}" alt="bag" style="width:1400px ;height:300px;">
+          </div>
+        </div>
+        
+        <!-- Left and right controls -->
+        <a class="carousel-control-prev" href="#demo" data-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#demo" data-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </a>
+      </div>
+
+
+   <!-- <div class="wrapper"> -->
+      {% for i in Products %}
+        <!-- {% if i.product_set.all.exists %}   -->
+             <h1>
+               {{i.name}}
+              </h1> 
+               {% for j in i.product_set.all %}
+               
+              <div class="d-inline-block">
+                   <div class="card " style="width: 15rem;height: 25rem;">
+                <img src="{{ j.pics.url }}" class="card-img" height="226px">
+                    <div class="card-body" >
+                        <h5 class="card-title"> {{ j.name }}</h5>
+                        <!-- <p class="card-text">{{product.description}}</p> -->
+                        <p class="">Price {{j.price}}</p>
+                        <a href="{% url 'detail' j.slug %}" class="btn btn-primary stretched-link">Detail</a>
+                        <!-- <a href="{% url 'detail' j.slug %}" class="btn btn-info">Details</a> -->
+                        <!-- <a href="#" class="btn btn-info">Add To Cart</a> -->
+                    </div>
+                </div>
+            </div>
+                      
+                    {% endfor %}
+            <!-- {% endif %}  -->
+            
+            {% endfor %}
+                <!-- </div>  -->
+
+              
+{% endblock %}

@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <link rel="stylesheet" type="text/css"  href="{% static 'style.css' %}">
+  
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<style>
+        /* Make the image fully responsive */
+        .carousel-inner img {
+            width: 100%;
+            height: 100%;
+        }
+        </style>
+</head>
+<body>
+
+        <nav class="navbar navbar-expand-sm bg-success navbar-dark">
+                <!-- Brand -->
+                <a class="navbar-brand" style="font-style:italic;font-weight:bold;"><img src="{% static 'coins.png' %}" style="height:30px;width: 30px;">ECOMM</a>
+              
+                <!-- Links -->
+                <ul class="navbar-nav">
+                  <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>   
+                  {% if user.is_authenticated and user.seller %} 
+                  <li class="nav-item"><a class="nav-link" href="{% url 'selleraddproduct' %}">Add Product</a></li>
+                  
+                   <!-- search -->
+                   <form class="form-inline text-center" method="POST" action="{% url 'search' %}">
+                      {% csrf_token %}
+                      <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search" style="width: 530px;margin-left: 90px;">
+                      <div class="input-group-btn">
+                        <button class="btn btn-success" type="submit">Search</button>
+                      </div>
+                    </form> 
+
+                  <li class="nav-item dropdown" style="margin-left: 100px;">
+                      <a class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown">Hi {{request.user}} </a>
+                       <div class="dropdown-menu" style="font-style:oblique;background-color: lightblue;">
+                        <!-- <a class="dropdown-item" href="{% url 'login' %}">Login</a> -->
+                        <a class="dropdown-item" href="{% url 'logout' %}">LOGOUT</a>
+                        <a class="dropdown-item" href="{% url 'changepassword' %}">Change password</a>
+                      </div>
+                </li>
+                  
+                  {% else %}
+                  <!-- Dropdown category -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Catagory</a>
+                    <div class="dropdown-menu" style="font-style:oblique;background-color: mediumspringgreen;">
+                        {% for object in categories_list %}
+                        <a class="dropdown-item" href="{% url 'display' object.slug %}">{{ object }}</a>    
+                        {% endfor %}
+                    </div>
+                  </li>
+
+                  <!-- search -->
+                  <form class="form-inline text-center" method="POST" action="{% url 'search' %}">
+                    {% csrf_token %}
+                    <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search" style="width: 530px;margin-left: 90px;">
+                    <div class="input-group-btn">
+                      <button class="btn btn-success" type="submit">Search</button>
+                    </div>
+                  </form> 
+
+                  <!-- dropdown Account -->
+                  <li class="nav-item dropdown" style="margin-left: 100px;">
+                        <a class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown">Account </a>
+                         <div class="dropdown-menu" style="font-style:oblique;background-color: lightblue;">
+                            <a class="dropdown-item" href="{% url 'login' %}">Login</a>
+                          <!-- <a class="dropdown-item" href="{% url 'logout' %}">LOGOUT</a> -->
+                          <a class="dropdown-item" href="{% url 'changepassword' %}">Change password</a>
+                        </div>
+                  </li>
+
+                  <li class="nav-item" style="margin-left: 50px;"><a class="nav-link" href="{% url 'cart_detail' %}">Cart ({{request.session.cart | length}})
+                    </a></li>
+                    {% endif %}
+                </ul>
+              </nav>
+
+
+
+
+
+        
+              {% if messages %}
+		{% for message in messages %}
+		<div class="alert alert-{{message.tags}}">
+			<strong>{{message.tags}}!</strong> {{message}}
+		</div>
+		{% endfor %}
+    {% endif %}
+    
+    {% block title %}
+    
+{% endblock %}
+              
+              {% block content %}
+
+              {% endblock %}
+             
+</body>
+</html>

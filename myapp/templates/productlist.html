@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="wrapper">
+        {% for Product in product_list %}
+      <div class="card" style="height:400px;margin-top: 50px;">
+            <a href=""><img class="card-img-top" src="{{Product.pics.url}}"  alt="Card image" style="height:200px;width:200px;margin-top: 30px;margin-left: 30px;" > </a>
+            <div class="card-body">
+              <h4 class="card-title"><a href="{% url 'detail' Product.slug %}"> {{ Product.name }}</a></h4>
+              <p class="card-text">Price {{ Product.price }}</p>
+              <!-- <a href="{% url 'detail' Product.slug %}">Detail</a> -->
+              <br><a href="{% url 'buyeraddress' %}" class="btn btn-success">Buy</a>
+              <form action="{% url 'cart_add' Product.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Add To Cart" class="btn btn-danger">
+              <!-- this will only work when we remove decorator @post_required in cart view
+                <span><a href="{% url 'cart_add' Product.id %}" class="btn btn-danger">Add Cart</a> -->
+            </div>
+        </div>{% endfor %}
+    </div>
+
+    {% endblock %}

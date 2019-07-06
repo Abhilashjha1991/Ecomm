@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="POST" class="col-md-3">
+    {% csrf_token %}
+    {{ form.as_p}}
+    <input type="submit" value="LOGIN">
+    <span><a href="{% url 'password_reset' %}">Forget Password</a></span>
+    <h5>Already Registered?<br>
+        <a href="{% url 'sellerregister' %}">Register seller</a></br>
+            <a href="{% url 'buyerrregister' %}">Register buyer</a></h5> 
+</form>
+
+{% endblock %}

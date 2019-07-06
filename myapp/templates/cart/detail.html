@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Your shopping cart
+{% endblock %}
+
+{% block content %}
+    
+    <table class="cart">
+        <thead>
+            
+            <!-- <tr> -->
+                <!-- <th>Image</th> -->
+                <!-- <th>Product</th> -->
+                <!-- <th>Quantity</th> -->
+                <!-- <th>Remove</th> -->
+                <!-- <th>Unit price</th>                 -->
+                <!-- <th>Price</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            {% if cart %}
+        {% for item in cart %}
+            {% with product=item.product %}
+            <tr>
+                <td>
+                    <a href="{{ product.get_absolute_url }}">
+                        <img src="{% if product.pics %}{{ product.pics.url }}{% else %}{% static "myapp/no_image.png" %}{% endif %}"  style="height:200px;width:200px;">
+                    </a>
+                </td>
+                <td>{{ product.name }}</td>
+                <td>
+                    <form action="{% url 'cart_add' product.id %}" method="post">
+                        {{ item.update_quantity_form.quantity }}
+                        {{ item.update_quantity_form.update }}
+                        <input type="submit" value="Update">
+                        {% csrf_token %}
+                    </form>
+                </td>
+                
+                <td class="num">{{ item.price }}</td>
+                <!-- <td class="num">{{ item.total_price }}</td> -->
+                <td><a href="{% url 'cart_remove' product.id %}" class="btn btn-danger">Remove</a></td>
+            </tr>
+            {% endwith %}
+        {% endfor %}
+        <tr class="total">
+            <td style="color:red; text-align: center;font-size: 30px;font-family: serif;">Total</td>
+            <!-- <td colspan="4"></td> -->
+            <td class="num">{{ cart.get_total_price }}</td>
+        </tr>
+        </tbody>
+    </table>
+    <p class="text-center">
+        <a href="{% url 'home' %}" class="btn btn-outline-primary">Continue shopping</a>
+        <a href="{% url 'order_create' %}" class="btn btn-success">Place Order</a>
+
+    </p>
+    {% else %}
+    <h1>Your Cart is Empty</h1>
+    {% endif %}
+{% endblock %}

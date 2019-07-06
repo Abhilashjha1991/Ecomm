@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<form method="POST" class="col-md-4" action="" style="display: inline-block;" enctype="multipart/form-data"> 
+    {% csrf_token %} 
+    <label>Enter Product : </label> 
+		
+    {{ form.as_p}} 
+    <input type="submit"> 
+    <a href="{% url 'sellerproductshow' %}" class="btn btn-success">Show</a>
+</form> 
+
+
+
+{% endblock %}
